@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Montserrat:wght@400;600;700&display=swap');
+
+:root {
+    --bg-dark: #0a0514; --bg-card: #1c0d36; --bg-input: #140826;
+    --primary: #b44aff; --primary-hover: #9d32eb;
+    --text-main: #f0e6ff; --text-muted: #8b76b3; 
+    --border: #3d1b6b; --success: #10b981; --danger: #ef4444; --warning: #f59e0b;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; background-image: radial-gradient(var(--border) 1px, transparent 0); background-size: 30px 30px; }
+
+/* ШАПКА */
+.header { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: var(--bg-card); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 100; }
+.logo { font-family: 'Press Start 2P', cursive; font-size: 14px; }
+.auth-area { display: flex; gap: 15px; }
+.auth-btn { padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-size: 14px; transition: 0.2s; }
+.login-btn { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+.login-btn:hover { background: var(--primary); color: white; }
+.register-btn, .btn-primary { background: var(--primary); color: white; border: 2px solid var(--primary); }
+.register-btn:hover, .btn-primary:hover { background: var(--primary-hover); box-shadow: 0 0 15px rgba(180, 74, 255, 0.4); }
+.profile-area { display: flex; align-items: center; gap: 15px; }
+.user-info { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 5px 10px; border-radius: 8px; }
+.user-info:hover { background: rgba(180, 74, 255, 0.1); }
+.header-avatar { width: 40px; height: 40px; background: var(--bg-input); border: 2px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.logout-btn { background: transparent; border: 2px solid var(--danger); color: var(--danger); padding: 8px 15px; border-radius: 8px; cursor: pointer; }
+
+/* ПРИЛОЖЕНИЕ */
+.main-app-container { padding: 30px; max-width: 1200px; margin: 0 auto; }
+.app-window { background: var(--bg-card); border: 2px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+.app-tabs { display: flex; background: var(--bg-input); border-bottom: 2px solid var(--border); }
+.tab-btn { flex: 1; padding: 18px 10px; background: transparent; border: none; color: var(--text-muted); font-weight: 600; font-size: 15px; cursor: pointer; border-right: 1px solid var(--border); transition: 0.2s; }
+.tab-btn:hover { color: var(--primary); }
+.tab-btn.active { color: white; background: var(--primary); }
+.hidden-tab { display: none !important; }
+.app-content { padding: 30px; min-height: 500px; }
+.tab-panel { display: none; animation: fadeIn 0.3s; }
+.tab-panel.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+h2 { font-size: 20px; margin-bottom: 10px; color: var(--primary); }
+
+/* РАСПИСАНИЕ */
+.schedule-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+.small-btn { padding: 8px 12px; font-size: 12px; border-radius: 6px; }
+.progress-widget { display: flex; align-items: center; gap: 15px; font-size: 13px; }
+.progress-bar-container { width: 100px; height: 8px; background: var(--bg-input); border-radius: 4px; overflow: hidden; }
+.progress-bar { height: 100%; background: var(--success); width: 0%; transition: width 0.3s; }
+.day-switcher { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
+.day-btn { padding: 8px 20px; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-muted); border-radius: 20px; cursor: pointer; white-space: nowrap; }
+.day-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+.schedule-item { display: flex; align-items: center; background: var(--bg-input); padding: 15px 20px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; }
+.schedule-item:hover { border-color: var(--primary); transform: translateX(5px); }
+.s-time { font-size: 18px; font-weight: 700; color: var(--primary); width: 80px; }
+.s-info h4 { font-size: 16px; margin-bottom: 2px; }
+.s-info p { font-size: 12px; color: var(--text-muted); }
+.s-action { margin-left: auto; font-size: 13px; color: var(--primary); }
+
+/* Задачи */
+.add-task-form { display: flex; gap: 10px; margin-bottom: 15px; }
+.add-task-form input { flex: 1; padding: 12px; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-main); border-radius: 6px; }
+.task-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.task-item { display: flex; align-items: center; gap: 12px; background: var(--bg-input); padding: 12px 15px; border-radius: 6px; border: 1px solid var(--border); flex-wrap: wrap; position: relative; }
+.task-item.completed { opacity: 0.5; text-decoration: line-through; }
+.task-item input { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; }
+.task-time-badge { background: rgba(180, 74, 255, 0.15); color: var(--primary); font-size: 11px; padding: 3px 8px; border-radius: 10px; display: flex; align-items: center; gap: 4px; margin-left: auto; font-weight: 600; }
+
+/* МАТЕРИАЛЫ */
+.materials-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
+.filter-controls { display: flex; gap: 10px; }
+.search-bar { padding: 10px; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-main); border-radius: 6px; width: 200px; }
+.materials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+.material-card { background: var(--bg-input); padding: 20px; border: 1px solid var(--border); border-radius: 8px; display: flex; flex-direction: column; transition: 0.2s; }
+.material-card:hover { border-color: var(--primary); transform: translateY(-3px); }
+.material-card .tag { background: rgba(180, 74, 255, 0.2); color: var(--primary); font-size: 11px; padding: 3px 10px; border-radius: 12px; font-weight: bold; align-self: flex-start; margin-bottom: 10px; }
+.material-card h4 { font-size: 15px; margin-bottom: 5px; }
+.material-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 15px; flex: 1; }
+.btn-secondary { padding: 10px; background: transparent; border: 1px solid var(--primary); color: var(--primary); border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+.btn-secondary:hover { background: var(--primary); color: white; }
+
+/* ОБЩЕНИЕ */
+.chat-layout { display: flex; height: 480px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.chat-sidebar { width: 260px; background: var(--bg-input); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+.sidebar-header { padding: 15px; border-bottom: 1px solid var(--border); }
+.chat-contact { padding: 15px 20px; background: transparent; border: none; border-bottom: 1px solid var(--border); text-align: left; cursor: pointer; color: var(--text-main); transition: 0.2s; }
+.chat-contact.active { background: rgba(180, 74, 255, 0.1); border-left: 3px solid var(--primary); }
+.contact-name { font-weight: 600; font-size: 14px; }
+.time-shield { margin-top: auto; padding: 20px; background: var(--bg-card); border-top: 1px solid var(--border); }
+.time-shield h4 { font-size: 13px; margin-bottom: 15px; }
+.toggle-switch { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; }
+.toggle-switch input { display: none; }
+.slider { width: 34px; height: 20px; background: var(--border); border-radius: 20px; position: relative; transition: .4s; }
+.slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: .4s; }
+input:checked + .slider { background: var(--primary); }
+input:checked + .slider:before { transform: translateX(14px); }
+.chat-window { flex: 1; display: flex; flex-direction: column; }
+.chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+.msg { padding: 12px 16px; border-radius: 12px; max-width: 80%; font-size: 14px; line-height: 1.4; }
+.msg.received { background: var(--bg-input); align-self: flex-start; }
+.msg.sent { background: var(--primary); color: white; align-self: flex-end; }
+.msg.system { background: rgba(239, 68, 68, 0.1); border: 1px dashed var(--danger); color: var(--danger); align-self: center; font-size: 12px; text-align: center; width: 90%; }
+.quick-replies { display: flex; gap: 10px; padding: 10px 20px; border-top: 1px solid var(--border); background: var(--bg-input); overflow-x: auto; }
+.quick-reply-btn { padding: 8px 15px; background: transparent; border: 1px solid var(--border); border-radius: 20px; color: var(--text-muted); cursor: pointer; font-size: 12px; white-space: nowrap; transition: 0.2s; }
+.quick-reply-btn:hover { border-color: var(--primary); color: var(--primary); background: rgba(180, 74, 255, 0.1); }
+.chat-input-area { display: flex; padding: 15px; border-top: 1px solid var(--border); }
+.chat-input-area input { flex: 1; padding: 12px; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-main); border-radius: 6px 0 0 6px; outline: none; }
+.chat-input-area button { padding: 0 25px; background: var(--primary); border: none; color: white; border-radius: 0 6px 6px 0; cursor: pointer; font-weight: 600; }
+
+/* ОТЧЕТЫ */
+.report-controls { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+.report-controls select { padding: 12px; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-main); border-radius: 6px; flex: 1; min-width: 150px; }
+.report-output { background: var(--bg-input); padding: 25px; border-radius: 8px; border: 1px solid var(--border); }
+.report-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; }
+.stat-card { background: var(--bg-card); border: 1px solid var(--border); padding: 12px; border-radius: 8px; }
+.stat-card small { display: block; color: var(--text-muted); font-size: 11px; }
+.stat-card strong { display: block; font-size: 20px; color: var(--primary); margin-top: 5px; }
+.report-actions { display: flex; gap: 10px; margin-bottom: 20px; justify-content: flex-end; }
+.table-container { max-height: 400px; overflow-y: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 10px; border-bottom: 1px solid var(--border); text-align: left; }
+th { color: var(--primary); background: rgba(180, 74, 255, 0.05); }
+select.grade-select { background: transparent; color: white; border: 1px solid var(--border); border-radius: 4px; padding: 4px; cursor: pointer; }
+select.grade-select option { background: var(--bg-card); }
+
+/* ПРОФИЛЬ */
+.profile-edit-layout { display: flex; gap: 50px; margin-top: 20px; }
+.avatar-edit { text-align: center; background: var(--bg-input); padding: 30px; border-radius: 12px; border: 1px solid var(--border); min-width: 300px; }
+.big-avatar { width: 120px; height: 120px; background: var(--bg-card); border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 60px; margin: 0 auto 20px; }
+.avatar-options { display: flex; gap: 10px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+.avatar-options span { font-size: 28px; cursor: pointer; padding: 8px; border-radius: 8px; transition: 0.2s; background: var(--bg-card); }
+.avatar-options span:hover { transform: scale(1.1); border: 1px solid var(--primary); }
+.info-edit { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+.input-group { display: flex; flex-direction: column; gap: 5px; }
+.input-group label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+.input-group input { padding: 15px; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-main); border-radius: 6px; font-size: 15px; }
+
+/* ИИ-ПОМОЩНИК */
+.ai-assistant { position: fixed; bottom: 30px; right: 30px; z-index: 1000; display: flex; flex-direction: column; align-items: flex-end; }
+.ai-toggle-btn { width: 60px; height: 60px; border-radius: 50%; background: var(--primary); border: none; cursor: pointer; box-shadow: 0 5px 20px rgba(180, 74, 255, 0.4); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+.ai-toggle-btn:hover { transform: scale(1.1); }
+.ai-icon { font-size: 30px; }
+.ai-chat-window { display: none; width: 320px; background: var(--bg-card); border: 2px solid var(--primary); border-radius: 12px; margin-bottom: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); overflow: hidden; }
+.ai-chat-header { background: var(--primary); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+.ai-messages { height: 250px; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.ai-msg { padding: 10px 14px; border-radius: 8px; font-size: 13px; max-width: 85%; line-height: 1.4; }
+.ai-msg.bot { background: var(--bg-input); align-self: flex-start; }
+.ai-msg.user { background: var(--primary); color: white; align-self: flex-end; }
+.ai-input-area { display: flex; border-top: 1px solid var(--border); }
+.ai-input-area input { flex: 1; padding: 12px; background: var(--bg-input); border: none; color: var(--text-main); outline: none; }
+.ai-input-area button { padding: 0 15px; background: transparent; border: none; color: var(--primary); font-size: 20px; cursor: pointer; }
+
+/* МОДАЛКИ */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
+.modal.open { display: flex; align-items: center; justify-content: center; }
+.modal-content { background: var(--bg-card); padding: 40px; border: 2px solid var(--border); border-radius: 12px; width: 90%; max-width: 800px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.5); max-height: 90vh; overflow-y: auto; }
+.close { position: absolute; top: 15px; right: 20px; font-size: 24px; color: var(--text-muted); cursor: pointer; z-index: 10; }
+.close:hover { color: var(--primary); }
+.pixel-text { font-family: 'Press Start 2P', cursive; color: var(--primary); font-size: 16px; margin-bottom: 10px; }
+.modal-subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+.auth-modal { max-width: 400px; }
+.auth-tabs { display: flex; margin-bottom: 25px; border-bottom: 1px solid var(--border); }
+.auth-tab { flex: 1; padding: 12px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.2s; }
+.auth-tab.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+.auth-input { width: 100%; padding: 15px; margin-bottom: 15px; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-main); border-radius: 6px; font-size: 15px; }
+.auth-submit { width: 100%; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 6px; }
+
+/* УВЕДОМЛЕНИЯ */
+.toast-container { position: fixed; bottom: 30px; left: 30px; z-index: 3000; display: flex; flex-direction: column; gap: 10px; }
+.toast { background: var(--bg-card); border-left: 4px solid var(--primary); color: var(--text-main); padding: 15px 25px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); font-size: 14px; animation: slideInLeft 0.3s forwards; }
+.toast.success { border-left-color: var(--success); }
+@keyframes slideInLeft { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* СТИЛИ ДЛЯ ПЛАНОВ УРОКОВ И ДЗ */
+.lesson-plan-content { background: var(--bg-input); padding: 20px; border-radius: 8px; border-left: 4px solid var(--primary); margin-bottom: 20px; font-size: 14px; line-height: 1.7; }
+.lesson-plan-content b { color: var(--primary); }
+.lesson-plan-content ol, .lesson-plan-content ul { margin-left: 20px; margin-bottom: 15px; }
+.lesson-plan-content li { margin-bottom: 5px; }
+.ktp-table { width: 100%; border-collapse: collapse; background: var(--bg-input); border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
+.ktp-table th { background: rgba(180, 74, 255, 0.15); color: var(--primary); padding: 15px 10px; text-align: left; font-size: 13px; border-bottom: 2px solid var(--border); }
+.ktp-table td { padding: 12px 10px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; }
+.ktp-table tr:hover { background: rgba(180, 74, 255, 0.05); }
+.ktp-table tr:last-child td { border-bottom: none; }
+
+/* Домашнее задание файлами */
+.hw-upload-box { border: 2px dashed var(--border); padding: 15px; border-radius: 8px; text-align: center; margin-top: 15px; cursor: pointer; transition: 0.2s; }
+.hw-upload-box:hover { border-color: var(--primary); background: rgba(180,74,255,0.05); }
+.hw-file-list { margin-top: 15px; display: flex; flex-direction: column; gap: 8px; }
+.hw-file-item { display: flex; align-items: center; justify-content: space-between; background: var(--bg-card); padding: 10px 15px; border-radius: 6px; border: 1px solid var(--border); font-size: 13px; }
+.hw-file-item a { color: var(--primary); font-weight: bold; text-decoration: none; }
+
+/* --- НОВЫЕ СТИЛИ ДЛЯ МАТЕРИАЛОВ (LAMBORGHINI) --- */
+
+/* 1. ПРЕЗЕНТАЦИИ (PPT VIEWER) */
+.ppt-wrapper { display: flex; gap: 20px; height: 500px; }
+.ppt-sidebar { width: 120px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 10px; border-right: 1px solid var(--border); }
+.ppt-thumb { background: var(--bg-input); border: 2px solid var(--border); border-radius: 6px; padding: 15px 5px; text-align: center; font-size: 11px; cursor: pointer; transition: 0.2s; color: var(--text-muted); }
+.ppt-thumb.active { border-color: var(--primary); color: var(--primary); background: rgba(180, 74, 255, 0.1); }
+.ppt-main { flex: 1; display: flex; flex-direction: column; }
+.ppt-slide { flex: 1; background: linear-gradient(135deg, #2a1745 0%, #140826 100%); border-radius: 12px; border: 2px solid var(--primary); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.4); transition: all 0.3s ease; }
+.ppt-slide h1 { font-size: 32px; color: var(--primary); font-family: 'Press Start 2P', cursive; margin-bottom: 20px; line-height: 1.4; }
+.ppt-slide p { font-size: 18px; line-height: 1.6; }
+.ppt-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+.ppt-controls button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* 2. КАРТОЧКИ (FLASHCARDS) */
+.flashcards-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; padding: 20px 0; perspective: 1000px; }
+.flashcard { width: 220px; height: 160px; cursor: pointer; }
+.flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+.flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; border-radius: 16px; font-weight: bold; font-size: 18px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+.flashcard-front { background: var(--bg-input); border: 2px solid var(--border); color: var(--text-main); }
+.flashcard-back { background: linear-gradient(135deg, var(--primary), var(--primary-hover)); border: 2px solid var(--primary); color: white; transform: rotateY(180deg); }
+.flashcard:hover .flashcard-inner { box-shadow: 0 0 20px rgba(180, 74, 255, 0.4); }
+
+/* 3. ТЕСТЫ (MODERN TEST UI) */
+.test-wrapper { max-width: 700px; margin: 0 auto; }
+.test-progress-bar { width: 100%; height: 6px; background: var(--bg-input); border-radius: 3px; margin-bottom: 20px; overflow: hidden; }
+.test-progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
+.test-question-card { background: var(--bg-input); border: 1px solid var(--border); border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+.test-question-card h3 { font-size: 18px; margin-bottom: 15px; color: var(--text-main); }
+.test-option { display: block; width: 100%; padding: 15px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; text-align: left; cursor: pointer; font-size: 15px; color: var(--text-main); transition: 0.2s; position: relative; overflow: hidden; }
+.test-option:hover { border-color: var(--primary); transform: translateX(5px); }
+.test-option.selected { background: rgba(180, 74, 255, 0.15); border-color: var(--primary); font-weight: 600; }
+.test-option.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--success); color: #fff; }
+.test-option.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--danger); color: #fff; }
+.test-result-screen { text-align: center; padding: 40px; background: var(--bg-input); border-radius: 12px; border: 1px solid var(--border); }
+.test-result-screen h2 { font-size: 36px; color: var(--primary); margin-bottom: 10px; }
+.test-result-screen p { font-size: 18px; color: var(--text-muted); margin-bottom: 20px; }
+
+/* АДАПТИВ */
+@media (max-width: 768px) {
+    .main-app-container { padding: 10px; }
+    .app-tabs { flex-wrap: wrap; }
+    .tab-btn { flex: 1 1 50%; font-size: 13px; }
+    .chat-layout { flex-direction: column; height: auto; }
+    .chat-sidebar { width: 100%; border-right: none; }
+    .profile-edit-layout { flex-direction: column; }
+    .avatar-edit { min-width: 100%; }
+    .materials-header { flex-direction: column; align-items: flex-start; }
+    .search-bar { width: 100%; }
+    .ppt-wrapper { flex-direction: column; height: auto; }
+    .ppt-sidebar { width: 100%; flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+    .ppt-thumb { min-width: 80px; }
+    .ppt-slide h1 { font-size: 20px; }
+    .ppt-slide p { font-size: 14px; }
+}

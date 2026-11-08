@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Точка Фокуса | Рабочий кабинет</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Шапка -->
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">✦</span> ТОЧКА ФОКУСА
+        </div>
+        
+        <div class="auth-area" id="authArea">
+            <button class="auth-btn login-btn" onclick="openAuthModal('login')">Войти</button>
+            <button class="auth-btn register-btn" onclick="openAuthModal('register')">Регистрация</button>
+        </div>
+        
+        <div class="profile-area" id="profileArea" style="display: none;">
+            <div class="user-info" onclick="switchTab('profile', document.querySelector('.tab-btn[data-target=\'profile\']'))">
+                <div id="headerAvatar" class="header-avatar">👩‍🏫</div>
+                <span class="user-greeting" style="font-weight: 600;">Привет, <b id="userNameDisplay">Учитель</b>!</span>
+            </div>
+            <button class="auth-btn logout-btn" onclick="logout()">Выйти</button>
+        </div>
+    </header>
+
+    <!-- ГЛАВНЫЙ ЭКРАН -->
+    <main class="main-app-container">
+        <div class="app-window">
+            <div class="app-tabs">
+                <button class="tab-btn active" data-target="routine" onclick="switchTab('routine', this)">📅 Расписание</button>
+                <button class="tab-btn" data-target="materials" onclick="switchTab('materials', this)">📚 Материалы</button>
+                <button class="tab-btn" data-target="chat" onclick="switchTab('chat', this)">💬 Общение</button>
+                <button class="tab-btn" data-target="reports" onclick="switchTab('reports', this)">📊 Отчеты</button>
+                <button class="tab-btn hidden-tab" data-target="profile" onclick="switchTab('profile', this)">⚙️ Профиль</button>
+            </div>
+
+            <div class="app-content">
+                
+                <!-- 1. РАСПИСАНИЕ -->
+                <div id="tab-routine" class="tab-panel active">
+                    <div class="schedule-header">
+                        <div>
+                            <h2>Мое расписание</h2>
+                            <button class="btn-primary small-btn" style="margin-top: 10px;" onclick="openLessonModal()">+ Добавить свой урок</button>
+                        </div>
+                        <div class="progress-widget">
+                            <span>Задачи: <b id="taskProgressText">0 из 0</b></span>
+                            <div class="progress-bar-container"><div class="progress-bar" id="taskProgressBar"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="day-switcher" id="daySwitcher">
+                        <button class="day-btn active" onclick="loadSchedule('monday', this)">Пн</button>
+                        <button class="day-btn" onclick="loadSchedule('tuesday', this)">Вт</button>
+                        <button class="day-btn" onclick="loadSchedule('wednesday', this)">Ср</button>
+                        <button class="day-btn" onclick="loadSchedule('thursday', this)">Чт</button>
+                        <button class="day-btn" onclick="loadSchedule('friday', this)">Пт</button>
+                    </div>
+                    
+                    <div class="schedule-grid" id="scheduleGrid"></div>
+
+                    <h3 style="margin-top: 30px; margin-bottom: 15px;">Быстрые задачи</h3>
+                    <div class="add-task-form">
+                        <input type="text" id="newTaskInput" placeholder="Например: Проверить сочинения...">
+                        <input type="time" id="newTaskTime" style="width: 120px;">
+                        <button class="btn-primary" onclick="addTask()">Добавить</button>
+                    </div>
+                    <ul class="task-list" id="taskList"></ul>
+                </div>
+
+                <!-- 2. МАТЕРИАЛЫ -->
+                <div id="tab-materials" class="tab-panel">
+                    <div class="materials-header">
+                        <h2>Библиотека материалов</h2>
+                        <div class="filter-controls">
+                            <input type="text" id="searchInput" class="search-bar" placeholder="Поиск..." onkeyup="filterMaterials()">
+                            <select id="subjectFilter" onchange="filterMaterials()">
+                                <option value="all">Все предметы</option>
+                                <option value="Русский язык">Русский язык</option>
+                                <option value="Литература">Литература</option>
+                                <option value="Математика">Математика</option>
+                                <option value="История">История</option>
+                                <option value="Физика">Физика</option>
+                                <option value="Биология">Биология</option>
+                                <option value="География">География</option>
+                                <option value="Химия">Химия</option>
+                                <option value="Информатика">Информатика</option>
+                                <option value="Английский язык">Английский язык</option>
+                                <option value="Обществознание">Обществознание</option>
+                            </select>
+                            <select id="typeFilter" onchange="filterMaterials()">
+                                <option value="all">Все типы</option>
+                                <option value="test">Тесты</option>
+                                <option value="presentation">Презентации</option>
+                                <option value="cards">Карточки</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="materials-grid" id="materialsGrid"></div>
+                </div>
+
+                <!-- 3. ОБЩЕНИЕ -->
+                <div id="tab-chat" class="tab-panel">
+                    <div class="chat-layout">
+                        <div class="chat-sidebar">
+                            <div class="sidebar-header"><h4>Чаты</h4></div>
+                            <div id="chatList">
+                                <button class="chat-contact active" data-chat="parents" onclick="switchChat('parents', this)"><div class="contact-name">👨‍👩‍👧 Родители 5А</div></button>
+                                <button class="chat-contact" data-chat="colleagues" onclick="switchChat('colleagues', this)"><div class="contact-name">👩‍🏫 Учителя</div></button>
+                                <button class="chat-contact" data-chat="class" onclick="switchChat('class', this)"><div class="contact-name">🎓 Классный час</div></button>
+                            </div>
+                            <div class="time-shield">
+                                <h4>🛡️ Защита времени</h4>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="dndCheckbox" onchange="saveChatSettings()"><span class="slider"></span><span>Не беспокоить</span>
+                                </label>
+                                <div class="quiet-hours" style="display:flex; gap:5px; margin-top:10px;">
+                                    <label style="font-size:11px;">С: <input type="time" id="quietStart" value="20:00" onchange="saveChatSettings()" style="width:70px; background:transparent; color:white; border:1px solid var(--border);"></label>
+                                    <label style="font-size:11px;">До: <input type="time" id="quietEnd" value="08:00" onchange="saveChatSettings()" style="width:70px; background:transparent; color:white; border:1px solid var(--border);"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-window">
+                            <div class="chat-messages" id="chatMessages"></div>
+                            <div class="quick-replies" id="quickReplies"></div>
+                            <div class="chat-input-area">
+                                <input type="text" id="chatInput" placeholder="Написать сообщение...">
+                                <button onclick="sendMessage()">➤</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. ОТЧЕТЫ -->
+                <div id="tab-reports" class="tab-panel">
+                    <h2>Автоматизация отчетности</h2>
+                    <div class="report-controls">
+                        <select id="reportType" onchange="renderReport()">
+                            <option value="ktp">КТП (Тематический план)</option>
+                            <option value="grades">Ведомость успеваемости</option>
+                        </select>
+                        <select id="reportSubject" onchange="renderReport()">
+                            <option>Русский язык</option>
+                            <option>Литература</option>
+                            <option>Математика</option>
+                            <option>Алгебра</option>
+                            <option>Геометрия</option>
+                            <option>История</option>
+                            <option>Физика</option>
+                            <option>Химия</option>
+                            <option>Биология</option>
+                            <option>География</option>
+                            <option>Информатика</option>
+                            <option>Английский язык</option>
+                            <option>Обществознание</option>
+                        </select>
+                        <select id="reportClass" onchange="renderReport()">
+                            <option value="5А">5А класс</option>
+                            <option value="5Б">5Б класс</option>
+                            <option value="6А">6А класс</option>
+                            <option value="6Б">6Б класс</option>
+                            <option value="7А">7А класс</option>
+                            <option value="7Б">7Б класс</option>
+                            <option value="8А">8А класс</option>
+                            <option value="8Б">8Б класс</option>
+                            <option value="9А">9А класс</option>
+                            <option value="9Б">9Б класс</option>
+                            <option value="10А">10А класс</option>
+                            <option value="11А">11А класс</option>
+                        </select>
+                    </div>
+                    
+                    <div class="report-actions" style="margin-bottom: 20px;">
+                        <button class="btn-primary" onclick="exportReportPDF()">📄 Скачать PDF</button>
+                        <button class="btn-primary" onclick="exportReportExcel()">📊 Скачать Excel</button>
+                        <button class="btn-secondary" onclick="printReport()">🖨️ Печать</button>
+                    </div>
+
+                    <div class="report-output" id="reportOutputContainer">
+                        <div class="report-summary" id="reportSummary"></div>
+                        <div id="reportTableContainer" class="table-container"></div>
+                        <div id="reportEditor" class="report-editor" style="margin-top:20px;"></div>
+                    </div>
+                </div>
+
+                <!-- 5. ПРОФИЛЬ -->
+                <div id="tab-profile" class="tab-panel">
+                    <h2>Настройки профиля</h2>
+                    <div class="profile-edit-layout">
+                        <div class="avatar-edit">
+                            <div class="big-avatar" id="profileAvatar">👩‍🏫</div>
+                            <p style="margin-top: 20px; font-weight: 600;">Сменить аватар:</p>
+                            <div class="avatar-options">
+                                <span onclick="changeAvatar('👩‍🏫')">👩‍🏫</span>
+                                <span onclick="changeAvatar('👨‍🏫')">👨‍🏫</span>
+                                <span onclick="changeAvatar('🧙‍♀️')">🧙‍♀️</span>
+                                <span onclick="changeAvatar('🛡️')">🛡️</span>
+                            </div>
+                        </div>
+                        <div class="info-edit">
+                            <div class="input-group"><label>Имя</label><input type="text" id="editProfileName"></div>
+                            <div class="input-group"><label>Город</label><input type="text" id="editProfileCity"></div>
+                            <div class="input-group"><label>Школа</label><input type="text" id="editProfileSchool"></div>
+                            <div class="input-group"><label>Предмет</label><input type="text" id="editProfileSubject"></div>
+                            <button class="btn-primary" style="margin-top: 10px;" onclick="saveProfile()">Сохранить</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ЕДИНАЯ МОДАЛКА -->
+    <div id="mainModal" class="modal" onclick="modalBackdrop(event)">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА АВТОРИЗАЦИИ -->
+    <div id="authModal" class="modal">
+        <div class="modal-content auth-modal">
+            <span class="close" onclick="closeModal('authModal')">&times;</span>
+            <h2 class="pixel-text" style="text-align: center; margin-bottom: 20px;">ТОЧКА ФОКУСА</h2>
+            <div class="auth-tabs">
+                <button id="tabLoginBtn" class="auth-tab active" onclick="switchAuthTab('login')">Вход</button>
+                <button id="tabRegisterBtn" class="auth-tab" onclick="switchAuthTab('register')">Регистрация</button>
+            </div>
+            <form id="loginForm" onsubmit="handleAuth(event, 'login')">
+                <input type="text" id="loginName" placeholder="Имя" required class="auth-input">
+                <input type="password" placeholder="Пароль" required class="auth-input">
+                <button type="submit" class="btn-primary auth-submit">Войти</button>
+            </form>
+            <form id="registerForm" style="display: none;" onsubmit="handleAuth(event, 'register')">
+                <input type="text" id="registerName" placeholder="Имя" required class="auth-input">
+                <input type="email" placeholder="Email" required class="auth-input">
+                <input type="password" placeholder="Пароль" required class="auth-input">
+                <button type="submit" class="btn-primary auth-submit">Создать</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
